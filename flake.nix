@@ -54,22 +54,28 @@
                     jdk
                   ];
                   enterShell = ''
-
                     export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
                     export CC="gcc"
-                    #eval "$(micromamba shell hook -s bash)"
-                    # micromamba create -r .venv -n cp -y -c conda-forge python=3.9 numpy python.app scikit-learn==0.24.2 scikit-image==0.18.3 h5py==3.6.0 jpype1
-                    eval "$(micromamba shell hook --shell=fish)"
                     eval "$(micromamba shell hook -s bash)"
-                    micromamba activate .venv/envs/cp
+                    if [ ! -d ".venv/envs/cp" ]; then
+                       micromamba create -r .venv -n cp -y -c conda-forge python=3.9 numpy python.app scikit-learn==0.24.2 scikit-image==0.18.3 h5py==3.6.0 jpype1
+                    fi
+                    micromamba activate .venv/envs/cp/
                     set CC "gcc"
-                    git clone git@github.com:CellProfiler/CellProfiler.git
+
+                    if [ ! -d "CellProfiler" ]; then
+                       git clone git@github.com:CellProfiler/CellProfiler.git
+                    fi
+
                     cd CellProfiler
                     git checkout ea6a2e6d001b10983301c10994e319abef41e618
                     cd ..
-                    pip install -e CellProfiler/src/subpackages/library/
-                    pip install -e CellProfiler/src/subpackages/core/
-                    pip install -e CellProfiler/src/frontend/
+
+                    if ! hash pythonw; then
+                      pip install -e CellProfiler/src/subpackages/library/
+                      pip install -e CellProfiler/src/subpackages/core/
+                      pip install -e CellProfiler/src/frontend/
+                    fi
                   '';
                 }
               ];
