@@ -70,10 +70,10 @@
                     git checkout ea6a2e6d001b10983301c10994e319abef41e618
                     cd ..
 
-                    if ! hash pythonw; then
-                      pip install -e CellProfiler/src/subpackages/library/
-                      pip install -e CellProfiler/src/subpackages/core/
-                      pip install -e CellProfiler/src/frontend/
+                    if [ "$(pip list | grep -F cellprofiler)" ]; then
+                    pip install -e CellProfiler/src/subpackages/library/
+                    pip install -e CellProfiler/src/subpackages/core/
+                    pip install -e CellProfiler/src/frontend/
                     fi
                   '';
                 }
