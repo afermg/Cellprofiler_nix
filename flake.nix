@@ -55,13 +55,12 @@
                   ];
                   enterShell = ''
                     export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
-                    export CC="gcc"
+                    # export CC="gcc"
                     eval "$(micromamba shell hook -s bash)"
                     if [ ! -d ".venv/envs/cp" ]; then
-                       micromamba create -r .venv -n cp -y -c conda-forge python=3.9 numpy python.app scikit-learn==0.24.2 scikit-image==0.18.3 h5py==3.6.0 jpype1
+                       micromamba create -r .venv -n cp -y -c conda-forge python=3.9 numpy python.app scikit-learn==0.24.2 scikit-image==0.18.3 h5py==3.6.0 cython jpype1
                     fi
                     micromamba activate .venv/envs/cp/
-                    set CC "gcc"
 
                     if [ ! -d "CellProfiler" ]; then
                        git clone git@github.com:CellProfiler/CellProfiler.git
